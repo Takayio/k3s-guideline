@@ -3,10 +3,6 @@
 # Set Root Path
 ROOT_PATH="/etc/rancher/k3s"
 
-# Master Node Tailscale IP
-MASTER_TAILSCALE_IP=
-MASTER_TOKEN=
-
 # Get Tailscale IP
 TAILSCALE_IP=$(tailscale ip -4)
 
