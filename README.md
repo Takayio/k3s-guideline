@@ -63,6 +63,7 @@ curl -sSL https://raw.githubusercontent.com/Takayio/k3s-guideline/main/shell/ins
 ### Install K3s Worker with Github shell
 
 ```bash
+sudo su
 export MASTER_TAILSCALE_IP=""
 export MASTER_TOKEN=""
 curl -sSL https://raw.githubusercontent.com/Takayio/k3s-guideline/main/shell/install-worker.sh | sh
