@@ -54,6 +54,13 @@ sudo tailscale up
 # Login your Tailscale Account with your Browser
 ```
 
+### Uninstall Tailscale
+
+```bash
+sudo tailscale down
+sudo apt-get purge tailscale -y
+```
+
 ### Install K3s Controller with Github shell
 
 ```bash
