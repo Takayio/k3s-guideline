@@ -60,6 +60,12 @@ sudo tailscale up
 curl -sSL https://raw.githubusercontent.com/Takayio/k3s-guideline/main/shell/install-master.sh | sh
 ```
 
+### Uninstall K3s Controller
+
+```bash
+sudo /usr/local/bin/k3s-uninstall.sh
+```
+
 ### Install K3s Worker with Github shell
 
 ```bash
@@ -67,4 +73,10 @@ sudo su
 export MASTER_TAILSCALE_IP=""
 export MASTER_TOKEN=""
 curl -sSL https://raw.githubusercontent.com/Takayio/k3s-guideline/main/shell/install-worker.sh | sh
+```
+
+### Uninstall K3s Worker
+
+```bash
+sudo /usr/local/bin/k3s-agent-uninstall.sh
 ```
