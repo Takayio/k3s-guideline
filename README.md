@@ -64,6 +64,9 @@ graph TD
   class Tunnel,CF_DNS epsNode;
   class R_Pod,G_AIPod,G_Worker podNode;
 
+  %% --- Global Link Styling (For Dark Mode Visibility) ---
+  linkStyle default stroke:#9e9e9e,stroke-width:2px,color:#9e9e9e
+
   style Public fill:#ffffff,stroke:#333,stroke-width:2px,color:#000,stroke-dasharray: 5 5
   style Cloud fill:#e3f2fd,stroke:#1565c0,stroke-width:2px,color:#000,stroke-dasharray: 5 5
   style VPN fill:#fff8e1,stroke:#ff8f00,stroke-width:2px,color:#000
