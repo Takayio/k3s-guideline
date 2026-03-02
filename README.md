@@ -10,30 +10,66 @@
 
 ```mermaid
 graph TD
-  subgraph Conoha_VPS ["Conoha VPS (Cloud)"]
+  %% --- Default Node Styling ---
+  classDef podNode fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:#000
+  classDef epsNode fill:#fff8e1,stroke:#ff8f00,stroke-width:2px,color:#000
+
+  %% --- 1. Cloud Infrastructure ---
+  subgraph Public ["🌍 Internet"]
+    CF_DNS("Cloudflare DNS")
+  end
+
+  subgraph Cloud ["☁️ Cloud (ConoHa VPS)"]
     direction TB
-    C_IP["Public IP: 157.x.x.x<br/>Tailscale IP: 100.76.54.126"]
-    Ingress["Ingress Nginx<br/>(Controller)"]
-    Flannel["Flannel Interface<br/>(flannel.1) MTU 1150"]
+    C_Ext["Public IP: 157.x.x.x"]
+    Controller["Ingress Nginx (Controller)"]
+    Flannel["Flannel Interface"]
 
-    Ingress --> Flannel
+    CF_DNS -. "Domain Resolution" .-> C_Ext
+    C_Ext -.-> Controller
+    Controller --> Flannel
   end
 
-  subgraph Tunnel ["Tailscale Mesh VPN Tunnel"]
-    Packet["[ Encapsulated Packet ]<br/>(Outer: Tailscale UDP | Inner: Pod IP 10.42.x.x)"]
+  %% --- 2. VPN Tunnel ---
+  subgraph VPN ["🌐 Tailscale Cloud"]
+    Tunnel("Mesh VPN Tunnel")
   end
 
-  subgraph Raspberry_Pi ["Raspberry Pi (Home)"]
+  %% --- 3. Home Infrastructure ---
+  subgraph Home ["🏠 Home Network (On-Premises)"]
     direction TB
-    R_IP["Private IP: 192.168.x.x<br/>Tailscale IP: 100.68.x.x"]
-    Gatekeeper["IP Forwarding / IPTables<br/>(The 'Gatekeeper')"]
-    Pod["Your Pod<br/>(10.42.6.182:80)"]
 
-    Gatekeeper --> Pod
+    subgraph Pi ["Raspberry Pi (Worker)"]
+      R_Route["IPTables (Gatekeeper)"]
+      R_Pod("Worker Pod")
+      R_Route --> R_Pod
+    end
+
+    subgraph GPU ["GPU Host (Worker)"]
+      G_Route["IPTables (Gatekeeper)"]
+      G_AIPod("AI Pod<br>(GTX 1650 4GB)")
+      G_Worker("Worker Pod")
+
+      G_Route --> G_AIPod
+      G_Route --> G_Worker
+    end
   end
 
-  Flannel --> Packet
-  Packet --> Gatekeeper
+  %% --- Traffic Flow ---
+  Flannel -- "Tailscale IP: 100.76.x.x" --> Tunnel
+  Tunnel -- "Tailscale IP: 100.x.x.x" --> R_Route
+  Tunnel -- "Tailscale IP: 100.x.x.x" --> G_Route
+
+  %% --- Node Classes & Subgroup Coloring ---
+  class Tunnel,CF_DNS epsNode;
+  class R_Pod,G_AIPod,G_Worker podNode;
+
+  style Public fill:#ffffff,stroke:#333,stroke-width:2px,color:#000,stroke-dasharray: 5 5
+  style Cloud fill:#e3f2fd,stroke:#1565c0,stroke-width:2px,color:#000,stroke-dasharray: 5 5
+  style VPN fill:#fff8e1,stroke:#ff8f00,stroke-width:2px,color:#000
+  style Home fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px,color:#000,stroke-dasharray: 5 5
+  style Pi fill:#c8e6c9,stroke:#388e3c,stroke-width:2px,color:#000
+  style GPU fill:#c8e6c9,stroke:#388e3c,stroke-width:2px,color:#000
 ```
 
 ## Installation
