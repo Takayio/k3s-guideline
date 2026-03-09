@@ -103,7 +103,7 @@ sudo apt-get purge tailscale -y
 ### Install K3s Controller with Github shell
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/Takayio/k3s-guideline/main/shell/install-master.sh | sh
+curl -sSL https://raw.githubusercontent.com/Takayio/k3s-guideline/main/shell/k3s/install-master.sh | sh
 ```
 
 ### Uninstall K3s Controller
@@ -118,7 +118,7 @@ sudo /usr/local/bin/k3s-uninstall.sh
 sudo su
 export MASTER_TAILSCALE_IP=""
 export MASTER_TOKEN=""
-curl -sSL https://raw.githubusercontent.com/Takayio/k3s-guideline/main/shell/install-worker.sh | sh
+curl -sSL https://raw.githubusercontent.com/Takayio/k3s-guideline/main/shell/k3s/install-worker.sh | sh
 ```
 
 ### Uninstall K3s Worker

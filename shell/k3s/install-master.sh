@@ -42,5 +42,5 @@ curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --cluster-init" sh -
 echo "Usage:\n"
 echo "export MASTER_TAILSCALE_IP=${TAILSCALE_IP}"
 echo "export MASTER_TOKEN=$(cat /var/lib/rancher/k3s/server/node-token)"
-echo "curl -sSL https://raw.githubusercontent.com/Takayio/k3s-guideline/main/shell/install-worker.sh | sh \n"
+echo "curl -sSL https://raw.githubusercontent.com/Takayio/k3s-guideline/main/shell/k3s/install-worker.sh | sh \n"
 echo "Master Node is ready!"
