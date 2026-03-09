@@ -39,10 +39,22 @@ graph TD
   subgraph Home ["🏠 Home Network (On-Premises)"]
     direction TB
 
-    subgraph Pi ["Raspberry Pi (Worker)"]
+    subgraph Pi ["Raspberry Pi 3 B+ (rpi3-02)"]
       R_Route["IPTables (Gatekeeper)"]
-      R_Pod("Worker Pod")
+      R_Pod("n8n main")
       R_Route --> R_Pod
+    end
+
+    subgraph Pi3 ["Raspberry Pi 3 B+ (rpi3-03)"]
+      R3_Route["IPTables (Gatekeeper)"]
+      R3_Pod("n8n task runner")
+      R3_Route --> R3_Pod
+    end
+
+    subgraph Pi4 ["Raspberry Pi 3 B+ (rpi3-04)"]
+      R4_Route["IPTables (Gatekeeper)"]
+      R4_Pod("n8n task runner")
+      R4_Route --> R4_Pod
     end
 
     subgraph GPU ["GPU Host (Worker)"]
@@ -58,11 +70,16 @@ graph TD
   %% --- Traffic Flow ---
   Flannel -- "Tailscale IP: 100.76.x.x" --> Tunnel
   Tunnel -- "Tailscale IP: 100.x.x.x" --> R_Route
+  Tunnel -- "Tailscale IP: 100.x.x.x" --> R3_Route
+  Tunnel -- "Tailscale IP: 100.x.x.x" --> R4_Route
   Tunnel -- "Tailscale IP: 100.x.x.x" --> G_Route
+  
+  R3_Pod -. "via Tailscale" .-> R_Pod
+  R4_Pod -. "via Tailscale" .-> R_Pod
 
   %% --- Node Classes & Subgroup Coloring ---
   class Tunnel,CF_DNS epsNode;
-  class R_Pod,G_AIPod,G_Worker podNode;
+  class R_Pod,R3_Pod,R4_Pod,G_AIPod,G_Worker podNode;
 
   %% --- Global Link Styling (For Dark Mode Visibility) ---
   linkStyle default stroke:#9e9e9e,stroke-width:2px,color:#9e9e9e
@@ -72,6 +89,8 @@ graph TD
   style VPN fill:#fff8e1,stroke:#ff8f00,stroke-width:2px,color:#000
   style Home fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px,color:#000,stroke-dasharray: 5 5
   style Pi fill:#c8e6c9,stroke:#388e3c,stroke-width:2px,color:#000
+  style Pi3 fill:#c8e6c9,stroke:#388e3c,stroke-width:2px,color:#000
+  style Pi4 fill:#c8e6c9,stroke:#388e3c,stroke-width:2px,color:#000
   style GPU fill:#c8e6c9,stroke:#388e3c,stroke-width:2px,color:#000
 ```
 
